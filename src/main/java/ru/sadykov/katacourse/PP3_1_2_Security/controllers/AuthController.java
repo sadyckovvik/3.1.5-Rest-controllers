@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
-import ru.sadykov.katacourse.PP3_1_2_Security.services.CustomUserDetailsService;
+import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
 
 @Controller
 @RequestMapping
 public class AuthController {
 
-    private CustomUserDetailsService userDetailsService;
+    private final UserService userDetailsService;;
 
     @Autowired
-    public AuthController(CustomUserDetailsService userDetailsService) {
+    public AuthController(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public String performRegistration(@ModelAttribute("user") User user) {
-        userDetailsService.register(user);
+        userDetailsService.registerUser(user);
             return "redirect:/login";
         }
     }

@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
-import ru.sadykov.katacourse.PP3_1_2_Security.services.CustomUserDetailsService;
+import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private CustomUserDetailsService userDetailsService;
+    private final UserService userDetailsService;
+
 
     @Autowired
-    public AdminController(CustomUserDetailsService userDetailsService) {
+    public AdminController(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -36,19 +37,19 @@ public class AdminController {
 
     @PostMapping("/saveUser")
     public String saveNewUser(@ModelAttribute("user") User user) {
-        userDetailsService.saveUser(user);
+        userDetailsService.saveOrUpdateUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/updateInfo")
     public String updateUser(@RequestParam("userId") long id, Model model) {
-        model.addAttribute("user",userDetailsService.findUserById(id));
+        model.addAttribute("user",userDetailsService.getUser(id));
         return "user-info";
     }
 
     @GetMapping("/removeUser")
     public String removeUser(@RequestParam("userId") long id) {
-        userDetailsService.deleteUserById(id);
+        userDetailsService.removeUser(id);
         return "redirect:/admin";
     }
 }

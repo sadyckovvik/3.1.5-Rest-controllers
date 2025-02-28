@@ -8,18 +8,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.sadykov.katacourse.PP3_1_2_Security.services.CustomUserDetailsService;
+import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userServiceImpl;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, CustomUserDetailsService customUserDetailsService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userServiceImpl) {
         this.successUserHandler = successUserHandler;
-        this.customUserDetailsService = customUserDetailsService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Bean
@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                         logout
                                 .logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
-                ).userDetailsService(customUserDetailsService);
+                ).userDetailsService(userServiceImpl);
         return http.build();
     }
 
