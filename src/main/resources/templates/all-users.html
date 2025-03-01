@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
@@ -24,7 +23,9 @@
             <td class="text-center" th:text="${user.username}"></td>
             <td class="text-center" th:text="${user.age}"></td>
             <td class="text-center" th:text="${user.password}"></td>
-            <td class="text-center" th:each="role : ${user.roles}" th:text="${role.name} + ' '"></td>
+            <td class="text-center">
+                <div th:each="role : ${user.roles}" th:text="${role.name}"></div>
+            </td>
            <td class="text-center">
                <a th:href="@{/admin/updateInfo(userId=${user.id})}" class="btn btn-primary me-2">Update</a>
                <a th:href="@{/admin/removeUser(userId=${user.id})}" class="btn btn-danger">Delete</a>

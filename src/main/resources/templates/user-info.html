@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>User info</title>
@@ -22,6 +21,16 @@
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
             <input type="text" th:field="*{password}" id="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="roles" class="form-label">Roles:</label>
+            <select id="roles" name="roleIds" class="form-control" multiple>
+            <option th:each="role : ${allRoles}"
+                    th:value="${role.id}"
+                    th:text="${role.name}"
+                    th:selected="${user.roles != null && user.roles.contains(role)}">
+            </option>
+            </select>
         </div>
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">OK</button>

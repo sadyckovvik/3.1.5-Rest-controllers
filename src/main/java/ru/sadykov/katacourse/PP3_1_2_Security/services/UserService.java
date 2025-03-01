@@ -2,7 +2,6 @@ package ru.sadykov.katacourse.PP3_1_2_Security.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
-
 import java.util.List;
 import java.util.Optional;
 
