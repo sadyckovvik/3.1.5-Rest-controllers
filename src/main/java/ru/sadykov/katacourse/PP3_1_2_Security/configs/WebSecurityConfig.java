@@ -44,7 +44,8 @@ public class WebSecurityConfig {
                         logout
                                 .logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
-                ).userDetailsService(userServiceImpl);
+                ).userDetailsService(userServiceImpl)
+                        .csrf(csrf -> csrf.disable());
         return http.build();
     }
 

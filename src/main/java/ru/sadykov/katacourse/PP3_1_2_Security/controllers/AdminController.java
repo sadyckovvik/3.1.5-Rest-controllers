@@ -3,8 +3,10 @@ package ru.sadykov.katacourse.PP3_1_2_Security.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,37 +45,40 @@ public class AdminController {
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute("newUser") User user, @RequestParam("roleIds") List<Long> roleIds) {
         user.setRoles(roleService.findsRolesByIds(roleIds)); // Устанавливаем роли для пользователя
-        userDetailsService.saveOrUpdateUser(user); // Сохраняем пользователя
+        userDetailsService.saveUser(user); // Сохраняем пользователя
         return "redirect:/admin"; // Перенаправляем на страницу администратора
     }
 
     // Открытие формы редактирования пользователя
-    @GetMapping("/editUser")
-    public String editUserForm(@RequestParam("userId") long id, Model model) {
-        Optional<User> userOptional = userDetailsService.getUser(id);
-        if (userOptional.isPresent()) {
-            model.addAttribute("user", userOptional.get()); // Передаем пользователя в модель
-            model.addAttribute("allRoles", roleService.getAllRoles()); // Список всех ролей
-            return "edit-user"; // Имя вашего шаблона для редактирования (edit-user.html)
-        } else {
-            return "redirect:/admin"; // Если пользователь не найден, перенаправляем на страницу администратора
-        }
-    }
+//    @GetMapping("/editUser")
+//    public String editUserForm(@RequestParam("userId") long id, Model model) {
+//        Optional<User> userOptional = userDetailsService.getUser(id);
+//        if (userOptional.isPresent()) {
+//            model.addAttribute("user", userOptional.get()); // Передаем пользователя в модель
+//            model.addAttribute("allRoles", roleService.getAllRoles()); // Список всех ролей
+//            return "admin-panel"; // Имя вашего шаблона для редактирования (edit-user.html)
+//        } else {
+//            return "redirect:/admin"; // Если пользователь не найден, перенаправляем на страницу администратора
+//        }
+//        }
 
     // Сохранение изменений после редактирования пользователя
     @PostMapping("/updateUser")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam("roleIds") List<Long> roleIds) {
+    public String updateUser(@ModelAttribute("user") User user,
+                             @RequestParam("userId") Long id,
+                             @RequestParam("roleIds") List<Long> roleIds) {
         user.setRoles(roleService.findsRolesByIds(roleIds)); // Устанавливаем роли для пользователя
-        userDetailsService.saveOrUpdateUser(user); // Сохраняем изменения
+        userDetailsService.updateUser(id, user); // Сохраняем изменения
         return "redirect:/admin"; // Перенаправляем на страницу администратора
     }
 
     // Удаление пользователя
-    @GetMapping("/deleteUser")
-    public String deleteUser(@RequestParam("userId") long id) {
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam("deleteuserId") Long id) {
         userDetailsService.removeUser(id); // Удаляем пользователя
         return "redirect:/admin"; // Перенаправляем на страницу администратора
     }
+
 }
 
 

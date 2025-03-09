@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     List<User> getAllUsers();
-    void saveOrUpdateUser(User user);
+    void saveUser(User user);
+    void updateUser(long id, User user);
     void registerUser(User user);
     Optional<User> getUser(long id);
     void removeUser(long id);

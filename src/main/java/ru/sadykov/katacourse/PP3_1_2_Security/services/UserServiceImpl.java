@@ -33,13 +33,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void saveOrUpdateUser(User user) {
+    public void saveUser(User user) {
         Optional <User> userFromDB = findByUsername(user.getUsername());
         if (userFromDB.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDao.saveUser(user);
         } else {
-            userDao.saveUser(user); // Сохраняем обновленного пользователя
+            throw new RuntimeException("Пользователь с таким именем уже занят");
         }
     }
 
@@ -79,5 +79,23 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = findByUsername(username);
         return user.orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(long id, User user) {
+        Optional<User> userFromDb = getUser(id);
+        if (userFromDb.isPresent()) {
+            User uFDB = userFromDb.get();
+            uFDB.setUsername(user.getUsername());
+            uFDB.setAge(user.getAge());
+            uFDB.setRoles(user.getRoles());
+            if(!uFDB.getPassword().equals(user.getPassword())) {
+                uFDB.setPassword((user.getPassword()));
+            }
+        } else {
+            // Обработка случая, когда пользователь не найден
+            throw new RuntimeException("User not found with id: " + id);
+        }
     }
 }
