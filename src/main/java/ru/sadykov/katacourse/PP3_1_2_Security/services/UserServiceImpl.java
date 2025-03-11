@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.Role;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
 import ru.sadykov.katacourse.PP3_1_2_Security.repositories.UserDao;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        Optional <User> userFromDB = findByUsername(user.getUsername());
+        Optional<User> userFromDB = findByUsername(user.getUsername());
         if (userFromDB.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDao.saveUser(user);
@@ -46,8 +47,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void registerUser(User user) {
-        Optional <User> userFromDB = findByUsername(user.getUsername());
-        if(userFromDB.isEmpty()) {
+        Optional<User> userFromDB = findByUsername(user.getUsername());
+        if (userFromDB.isEmpty()) {
             user.setRoles(Collections.singletonList(new Role(1L, "ROLE_USER")));
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDao.saveUser(user);
@@ -90,8 +91,8 @@ public class UserServiceImpl implements UserService {
             uFDB.setUsername(user.getUsername());
             uFDB.setAge(user.getAge());
             uFDB.setRoles(user.getRoles());
-            if(!uFDB.getPassword().equals(user.getPassword())) {
-                uFDB.setPassword((user.getPassword()));
+            if (!uFDB.getPassword().equals(user.getPassword())) {
+                uFDB.setPassword((passwordEncoder.encode(user.getPassword())));
             }
         } else {
             // Обработка случая, когда пользователь не найден

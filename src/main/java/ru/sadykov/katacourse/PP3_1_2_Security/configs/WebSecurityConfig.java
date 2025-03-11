@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,8 +30,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/login", "/error", "/registration").permitAll()  // Разрешить доступ
-                        .anyRequest().hasAnyRole("USER","ADMIN")
+                                .requestMatchers("/login", "/error", "/registration").permitAll()  // Разрешить доступ
+                                .anyRequest().hasAnyRole("USER", "ADMIN")
                 )
                 .formLogin(formLogin ->
                         formLogin
@@ -45,12 +46,12 @@ public class WebSecurityConfig {
                                 .logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
                 ).userDetailsService(userServiceImpl)
-                        .csrf(csrf -> csrf.disable());
+                .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
-  @Bean
-  public PasswordEncoder getPasswordEncoder() {
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
-  }
+    }
 }

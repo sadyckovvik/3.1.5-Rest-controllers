@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.List;
 
 @Entity
@@ -31,10 +32,12 @@ public class Role implements GrantedAuthority {
     public Role(Long id) {
         this.id = id;
     }
+
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
     @Override
     public String getAuthority() {
         return getName();

@@ -13,7 +13,8 @@ import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
 @RequestMapping
 public class AuthController {
 
-    private final UserService userDetailsService;;
+    private final UserService userDetailsService;
+    ;
 
     @Autowired
     public AuthController(UserService userDetailsService) {
@@ -33,7 +34,7 @@ public class AuthController {
     @PostMapping("/registration")
     public String performRegistration(@ModelAttribute("user") User user) {
         userDetailsService.registerUser(user);
-            return "redirect:/login";
-        }
+        return "redirect:/login";
     }
+}
 

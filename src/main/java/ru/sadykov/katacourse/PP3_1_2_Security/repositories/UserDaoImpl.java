@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
+
 import java.util.List;
 import java.util.Optional;
 
