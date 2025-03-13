@@ -1,6 +1,5 @@
 package ru.sadykov.katacourse.PP3_1_2_Security.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +16,6 @@ public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
     private final UserService userServiceImpl;
 
-    @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userServiceImpl) {
         this.successUserHandler = successUserHandler;
         this.userServiceImpl = userServiceImpl;

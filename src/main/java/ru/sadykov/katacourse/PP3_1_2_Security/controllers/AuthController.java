@@ -1,6 +1,5 @@
 package ru.sadykov.katacourse.PP3_1_2_Security.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,9 +13,7 @@ import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
 public class AuthController {
 
     private final UserService userDetailsService;
-    ;
 
-    @Autowired
     public AuthController(UserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
