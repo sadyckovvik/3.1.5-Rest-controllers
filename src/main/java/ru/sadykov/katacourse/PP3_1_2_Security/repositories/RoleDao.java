@@ -10,5 +10,9 @@ public interface RoleDao {
 
     List<Role> findsRolesByIds(List<Long> id);
 
+    List<Role> findsRolesByName(List<String> roles);
+
+    Role findRoleByName(String role);
+
     Role findRoleById(long id);
 }

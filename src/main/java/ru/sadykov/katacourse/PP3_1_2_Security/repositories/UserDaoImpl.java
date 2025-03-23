@@ -22,7 +22,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        entityManager.merge(user);
+        User managedUser = entityManager.merge(user);
+        user.setId(managedUser.getId());
     }
 
 

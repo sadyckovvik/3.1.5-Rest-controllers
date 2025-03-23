@@ -27,4 +27,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> findsRolesByIds(List<Long> id) {
         return roleDao.findsRolesByIds(id);
     }
+
+    @Override
+    public List<Role> findsRolesByName(List<String> roles) {
+        return roleDao.findsRolesByName(roles);
+    }
 }
