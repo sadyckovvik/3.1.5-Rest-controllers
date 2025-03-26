@@ -1,5 +1,5 @@
 async function sendDataEditUser(user, id) {
-    const response = await fetch(`/api/users/${id}`, {
+    const response = await fetch(`/api/users?id=${id}`, {
         method: "PUT",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)

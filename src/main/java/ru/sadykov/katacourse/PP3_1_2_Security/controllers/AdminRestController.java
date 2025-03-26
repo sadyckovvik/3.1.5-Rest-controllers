@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
 import ru.sadykov.katacourse.PP3_1_2_Security.services.UserService;
@@ -31,8 +31,8 @@ public class AdminRestController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    @GetMapping("/get-user")
+    public ResponseEntity<User> getUser(@RequestParam Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
@@ -42,14 +42,14 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HttpStatus> edit(@PathVariable("id") Long id, @RequestBody User user) {
+    @PutMapping
+    public ResponseEntity<HttpStatus> edit(@RequestParam Long id, @RequestBody User user) {
         userService.updateUser(id, user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+    @DeleteMapping()
+    public ResponseEntity<HttpStatus> delete(@RequestParam Long id) {
         userService.removeUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.Role;
 import ru.sadykov.katacourse.PP3_1_2_Security.models.User;
-import ru.sadykov.katacourse.PP3_1_2_Security.repositories.RoleDao;
 import ru.sadykov.katacourse.PP3_1_2_Security.repositories.UserDao;
 import ru.sadykov.katacourse.PP3_1_2_Security.util.UserNotCreatedException;
 import ru.sadykov.katacourse.PP3_1_2_Security.util.UserIdNotFoundException;
@@ -21,12 +20,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
-    private final RoleDao roleDao;
+    private final RoleService roleService;
 
-    public UserServiceImpl(UserDao userDao, @Lazy PasswordEncoder passwordEncoder, RoleDao roleDao) {
+    public UserServiceImpl(UserDao userDao, @Lazy PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
-        this.roleDao = roleDao;
+        this.roleService = roleService;
     }
 
     @Transactional(readOnly = true)
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userFromDB = userDao.findByUsername(user.getUsername());
         if (userFromDB.isEmpty()) {
             List<String> rolesName = user.getRoles().stream().map(Role::getName).toList();
-            user.setRoles(roleDao.findsRolesByName(rolesName));
+            user.setRoles(roleService.findsRolesByName(rolesName));
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDao.saveUser(user);
         } else {
@@ -96,7 +95,7 @@ public class UserServiceImpl implements UserService {
             userFromDb.setUsername(user.getUsername());
             userFromDb.setAge(user.getAge());
             List<String> rolesName = user.getRoles().stream().map(Role::getName).toList();
-            userFromDb.setRoles(roleDao.findsRolesByName(rolesName));
+            userFromDb.setRoles(roleService.findsRolesByName(rolesName));
             if (!userFromDb.getPassword().equals(user.getPassword())) {
                 userFromDb.setPassword((passwordEncoder.encode(user.getPassword())));
             }
